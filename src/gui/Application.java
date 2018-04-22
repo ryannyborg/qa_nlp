@@ -3,24 +3,17 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import java.awt.GridLayout;
-import javax.swing.JProgressBar;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
-import java.awt.GridBagLayout;
-import java.awt.FlowLayout;
-import java.awt.CardLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextPane;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
+
+import qa_nlp.LanguageProcessor;
 
 public class Application {
 
@@ -72,6 +65,9 @@ public class Application {
 		JButton btnSubmig = new JButton("Submit");
 		btnSubmig.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				LanguageProcessor lp = new LanguageProcessor();
+				lp.GetUserInput(textPane.getText());
+				
 			}
 		});
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
@@ -116,11 +112,5 @@ public class Application {
 					.addGap(20))
 		);
 		frame.getContentPane().setLayout(groupLayout);
-		
-		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
-		
-		JMenu mnFile = new JMenu("File");
-		menuBar.add(mnFile);
 	}
 }
