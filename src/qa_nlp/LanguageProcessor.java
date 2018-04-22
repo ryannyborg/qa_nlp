@@ -9,7 +9,7 @@ public class LanguageProcessor {
 //		System.out.println();
 		Database db = new Database();
 		
-		JOptionPane.showMessageDialog(null, input + "\n Is this what you wanted?");
+		JOptionPane.showMessageDialog(null, "Parsing user input...");
 		
 		ParseInput(input);
 		
