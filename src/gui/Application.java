@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -63,8 +64,19 @@ public class Application {
 		JButton btnSubmig = new JButton("Submit");
 		btnSubmig.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String answer = "";
+				
 				LanguageProcessor lp = new LanguageProcessor();
-				String answer = lp.ProcessQuestion(textPane.getText());
+				
+				System.out.print(textPane.getText());
+				
+				if(!textPane.getText().isEmpty()){
+					answer = lp.ProcessQuestion(textPane.getText());
+				} else {
+					JOptionPane.showMessageDialog(null, "Please enter a question.");
+				}
+				
+				
 				textPane_1.setText(answer);
 			}
 		});

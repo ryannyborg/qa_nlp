@@ -49,7 +49,7 @@ public class Database {
             }
             return line;
         } catch(Exception e) {
-        	String error = "Could not fetch sports data. Please check your Internet connection.";
+        	String error = "Could not fetch sports data. Please check your Username and Password or Internet connection.";
         	return error;
             //System.out.print("Could not fetch sports data. Please check your Internet connection.");
             
@@ -58,7 +58,7 @@ public class Database {
 	
 	private String CreateAnswer(String apiResponse){
 		
-		return "Not yet implemented";
+		return apiResponse;
 	}
 	
 }
