@@ -4,18 +4,32 @@ import javax.swing.JOptionPane;
 
 public class LanguageProcessor {
 	
-	public String GetUserInput (String input){
+	public String ProcessQuestion (String input){
+		String answer = "";
 //		System.out.print(input + " working...");
 //		System.out.println();
+		String apiAnswer = GetUserInput(input);
+		
+		if(apiAnswer == ""){
+			answer = "Sorry, I can't find an answer to that one. Can you try asking in a different way?";
+		} else {
+			answer = apiAnswer;
+		}
+		
+		
+		return answer;
+	}
+	
+	private String GetUserInput(String input){
 		Database db = new Database();
 		
-		JOptionPane.showMessageDialog(null, "Parsing user input...");
+		//JOptionPane.showMessageDialog(null, "Parsing user input...");
 		
 		ParseInput(input);
 		
-		db.CreateSQLStatement();
+		String answer = db.FindAnswer();
 		
-		return "Not yet implemented";
+		return answer;
 	}
 	
 	private void ParseInput(String input){
@@ -31,8 +45,9 @@ public class LanguageProcessor {
 		
 		// assign each word a probable part of speech
 		
-		
 	}
+	
+	
 	
 	
 

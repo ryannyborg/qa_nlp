@@ -53,8 +53,6 @@ public class Application {
 		JLabel lblQuestionAnsweringSystem = new JLabel("Question Answering System");
 		lblQuestionAnsweringSystem.setFont(new Font("Lucida Grande", Font.BOLD, 16));
 		
-		JLabel lblWhatWouldYou = new JLabel("What would you like to know?");
-		
 		JTextPane textPane = new JTextPane();
 		
 		JLabel lblAnswer = new JLabel("Answer");
@@ -66,10 +64,12 @@ public class Application {
 		btnSubmig.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LanguageProcessor lp = new LanguageProcessor();
-				lp.GetUserInput(textPane.getText());
-				
+				String answer = lp.ProcessQuestion(textPane.getText());
+				textPane_1.setText(answer);
 			}
 		});
+		
+		JLabel lblAskMeA = new JLabel("Ask Me a Question!");
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -78,9 +78,6 @@ public class Application {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(98)
 							.addComponent(lblQuestionAnsweringSystem))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(121)
-							.addComponent(lblWhatWouldYou))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(171)
 							.addComponent(btnSubmig))
@@ -91,7 +88,10 @@ public class Application {
 								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 359, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(194)
-							.addComponent(lblAnswer)))
+							.addComponent(lblAnswer))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(149)
+							.addComponent(lblAskMeA)))
 					.addContainerGap(53, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -100,7 +100,7 @@ public class Application {
 					.addGap(29)
 					.addComponent(lblQuestionAnsweringSystem)
 					.addGap(18)
-					.addComponent(lblWhatWouldYou)
+					.addComponent(lblAskMeA)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)

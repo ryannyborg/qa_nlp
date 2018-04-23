@@ -9,19 +9,33 @@ import java.util.Base64;
 
 public class Database {
 
-	public void CreateSQLStatement(){
+	public String FindAnswer(){
 		
-		FetchFromAPI();
+		String apiResponse = FetchFromAPI();
 		
+		String answer = CreateAnswer(apiResponse);
+		
+		System.out.print(answer);
+		
+		
+		return answer;
 	}
 	
-	private void FetchFromAPI(){
+	private String FetchFromAPI(){
 		try {
 			
 			// url needs to be created based on what the user's question is
 			
             URL url = new URL ("https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-playoff/scoreboard.json?fordate=20180418");
-            String encoding = Base64.getEncoder().encodeToString("{username}:{password}".getBytes());
+            
+            String username = "";
+            String password = "";
+            
+            String stringToEncode = username + ":" + password;
+            
+            // need to enter username and password based off of the MySportsFeeds account
+            String encoding = Base64.getEncoder().encodeToString(stringToEncode.getBytes());
+            
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setDoOutput(true);
@@ -33,12 +47,16 @@ public class Database {
             while ((line = in.readLine()) != null) {
                 System.out.println(line);
             }
+            return line;
         } catch(Exception e) {
-            e.printStackTrace();
+        	String error = "Could not fetch sports data. Please check your Internet connection.";
+        	return error;
+            //System.out.print("Could not fetch sports data. Please check your Internet connection.");
+            
         }
 	}
 	
-	private String CreateAnswer(){
+	private String CreateAnswer(String apiResponse){
 		
 		return "Not yet implemented";
 	}
