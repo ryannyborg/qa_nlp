@@ -25,25 +25,28 @@ public class LanguageProcessor {
 		
 		//JOptionPane.showMessageDialog(null, "Parsing user input...");
 		
-		ParseInput(input);
+		String[] words = {};
+		
+		words = ParseInput(input);
+		
+		VerifyWords(words);
 		
 		String answer = db.FindAnswer();
 		
 		return answer;
 	}
 	
-	private void ParseInput(String input){
+	private String[] ParseInput(String input){
 		String[] words = input.split("\\s+");
 		for(int i=0; i < words.length; i++){
 			words[i] = words[i].replaceAll("[^\\w]", "");
 		}
+		return words;
+	}
+	
+	private void VerifyWords(String[] words){
 		
-//		for(int i=0; i < words.length; i++){
-//			System.out.print(words[i]);
-//			System.out.println("");
-//		}
-		
-		// assign each word a probable part of speech
+		// 
 		
 	}
 	
