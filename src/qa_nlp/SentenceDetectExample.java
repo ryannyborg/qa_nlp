@@ -1,42 +1,69 @@
-package qa_nlp;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-
-import opennlp.tools.sentdetect.SentenceDetectorME;
-import opennlp.tools.sentdetect.SentenceModel;
+ 
+import opennlp.tools.postag.POSModel;
+import opennlp.tools.postag.POSTaggerME;
+import opennlp.tools.tokenize.Tokenizer;
+import opennlp.tools.tokenize.TokenizerME;
+import opennlp.tools.tokenize.TokenizerModel;
+ 
 /**
- * @author tutorialkart
+ * www.tutorialkart.com
+ * POS Tagger Example in Apache OpenNLP using Java
  */
-public class SentenceDetectExample {
-
-	public static void main(String[] args) {
-		try {
-			new SentenceDetectExample().sentenceDetect();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void sentenceDetect() throws InvalidFormatException, IOException {
-		String paragraph = "Apache openNLP supports the most common NLP tasks, such as tokenization, sentence segmentation, part-of-speech tagging, named entity extraction, chunking, parsing, and coreference resolution. These tasks are usually required to build more advanced text processing services. OpenNLP also includes maximum entropy and perceptron based machine learning.";
-
-		// refer to model file "en-sent,bin", available at link http://opennlp.sourceforge.net/models-1.5/
-		InputStream is = new FileInputStream("en-sent.bin");
-		SentenceModel model = new SentenceModel(is);
-
-		// load the model
-		SentenceDetectorME sdetector = new SentenceDetectorME(model);
-
-		// detect sentences in the paragraph
-		String sentences[] = sdetector.sentDetect(paragraph);
-
-		// print the sentences detected, to console
-		for(int i=0;i<sentences.length;i++){
-			System.out.println(sentences[i]);
-		}
-		is.close();
-	}
+public class POSTaggerExample {
+ 
+    public static void main(String[] args) {
+ 
+        InputStream tokenModelIn = null;
+        InputStream posModelIn = null;
+        
+        try {
+            String sentence = "John is 27 years old.";
+            // tokenize the sentence
+            tokenModelIn = new FileInputStream("en-token.bin");
+            TokenizerModel tokenModel = new TokenizerModel(tokenModelIn);
+            Tokenizer tokenizer = new TokenizerME(tokenModel);
+            String tokens[] = tokenizer.tokenize(sentence);
+ 
+            // Parts-Of-Speech Tagging
+            // reading parts-of-speech model to a stream 
+            posModelIn = new FileInputStream("en-pos-maxent.bin");
+            // loading the parts-of-speech model from stream
+            POSModel posModel = new POSModel(posModelIn);
+            // initializing the parts-of-speech tagger with model 
+            POSTaggerME posTagger = new POSTaggerME(posModel);
+            // Tagger tagging the tokens
+            String tags[] = posTagger.tag(tokens);
+            // Getting the probabilities of the tags given to the tokens
+            double probs[] = posTagger.probs();
+            
+            System.out.println("Token\t:\tTag\t:\tProbability\n---------------------------------------------");
+            for(int i=0;i<tokens.length;i++){
+                System.out.println(tokens[i]+"\t:\t"+tags[i]+"\t:\t"+probs[i]);
+            }
+            
+        }
+        catch (IOException e) {
+            // Model loading failed, handle the error
+            e.printStackTrace();
+        }
+        finally {
+            if (tokenModelIn != null) {
+                try {
+                    tokenModelIn.close();
+                }
+                catch (IOException e) {
+                }
+            }
+            if (posModelIn != null) {
+                try {
+                    posModelIn.close();
+                }
+                catch (IOException e) {
+                }
+            }
+        }
+    }
 }
