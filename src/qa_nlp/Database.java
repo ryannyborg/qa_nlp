@@ -28,7 +28,6 @@ public class Database {
 		sn = LoadSemanticNetwork(sn);
 		ConvertToQuery(afterPOS, numberOfWords, sn);
 		SaveSemanticNetwork(sn);
-		testingTheDamnAPI();
 		String apiResponse = FetchFromAPI(dbUsername, dbPassword, league, season_name, date);
 		String answer = CreateAnswer(apiResponse);
 		
@@ -284,27 +283,6 @@ public class Database {
 		edgesFile.close();
 	}
 	
-	private void testingTheDamnAPI(){
-		try {
-            URL url = new URL ("https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/scoreboard.json?fordate=20180403");
-            String encoding = Base64.getEncoder().encodeToString("rnyborg:ece466qa".getBytes());
-
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setDoOutput(true);
-            connection.setRequestProperty("Authorization", "Basic " + encoding);
-            InputStream content = (InputStream)connection.getInputStream();
-            BufferedReader in = 
-                new BufferedReader(new InputStreamReader(content));
-            String line;
-            while ((line = in.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-	}
-	
 	private String FetchFromAPI(String dbUsername, String dbPassword, String league, String season_name, String date){
 		try {
 			
@@ -315,8 +293,8 @@ public class Database {
 			// {season-name} can be defaulted to current 
 			// {format} 
 			
-			String urlString = "https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/scoreboard.json?fordate=20180403";
-//			String urlString = "https://api.mysportsfeeds.com/v1.2/pull/" + league + "/" + season_name + "/scoreboard.json?fordate=" + date;
+//			String urlString = "https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/scoreboard.json?fordate=20180403";
+			String urlString = "https://api.mysportsfeeds.com/v1.2/pull/" + league + "/" + season_name + "/scoreboard.json?fordate=" + date;
 			
             URL url = new URL(urlString);
             
