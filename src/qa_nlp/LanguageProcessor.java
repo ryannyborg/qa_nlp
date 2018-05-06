@@ -33,15 +33,25 @@ public class LanguageProcessor {
 	private String GetUserInput(String input){
 		Database db = new Database();
 		
+		String[][] afterPOS = null;
+		int numberOfWords = 0;
+		
 		//JOptionPane.showMessageDialog(null, "Parsing user input...");
 		
 //		String[] words = {};
 		
 //		words = ParseInput(input);
 		
-		AssignPartsOfSpeech(input);
+		afterPOS = AssignPartsOfSpeech(input);
 		
-		String answer = db.FindAnswer();
+		numberOfWords = GetNumberOfTokens(input);
+		
+		System.out.println();
+		for(int i=0;i<numberOfWords;i++){
+			System.out.print("Word: " + afterPOS[i][0] + "\tPOS: " + afterPOS[i][1] + "\n");
+		}
+		
+		String answer = db.FindAnswer(afterPOS, numberOfWords);
 		
 		return answer;
 	}
@@ -54,13 +64,44 @@ public class LanguageProcessor {
 //		return words;
 //	}
 	
-	private void AssignPartsOfSpeech(String words){
+	private int GetNumberOfTokens(String input){
+		InputStream tokenModelIn = null;
+		
+		try{
+			String sentence = input;
+	        // tokenize the sentence
+	        tokenModelIn = new FileInputStream("en-token.bin");
+	        TokenizerModel tokenModel = new TokenizerModel(tokenModelIn);
+	        Tokenizer tokenizer = new TokenizerME(tokenModel);
+	        String tokens[] = tokenizer.tokenize(sentence);
+	        
+	        return tokens.length;
+		} catch (IOException e) {
+            // Model loading failed, handle the error
+            e.printStackTrace();
+        }
+        finally {
+            if (tokenModelIn != null) {
+                try {
+                    tokenModelIn.close();
+                }
+                catch (IOException e) {
+                }
+            }
+        }
+		
+		return 0; // there was an error
+	}
+	
+	private String[][] AssignPartsOfSpeech(String input){
 		
 		InputStream tokenModelIn = null;
         InputStream posModelIn = null;
+        String tokenWithPOS[][] = new String[30][30];
         
         try {
-            String sentence = words;
+            String sentence = input;
+            int i = 0;
             // tokenize the sentence
             tokenModelIn = new FileInputStream("en-token.bin");
             TokenizerModel tokenModel = new TokenizerModel(tokenModelIn);
@@ -77,13 +118,18 @@ public class LanguageProcessor {
             // Tagger tagging the tokens
             String tags[] = posTagger.tag(tokens);
             // Getting the probabilities of the tags given to the tokens
-            double probs[] = posTagger.probs();
+//            double probs[] = posTagger.probs();
             
-            System.out.println("Token\t:\tTag\t:\tProbability\n---------------------------------------------");
-            for(int i=0;i<tokens.length;i++){
-                System.out.println(tokens[i]+"\t:\t"+tags[i]+"\t:\t"+probs[i]);
+            //System.out.println("Token\t:\tTag\t:\tProbability\n---------------------------------------------");
+            while(i < tokens.length){
+            	for(int j=0;j<tags.length;j++){
+            		tokenWithPOS[i][0] = tokens[i];
+            		tokenWithPOS[i][1] = tags[j];
+            		i++;
+            	}
+//                System.out.println(tokens[i]+"\t:\t"+tags[i]);
             }
-            
+        
         }
         catch (IOException e) {
             // Model loading failed, handle the error
@@ -105,7 +151,12 @@ public class LanguageProcessor {
                 }
             }
         }
+        
+        return tokenWithPOS;
 	}
+	
+	
+//	private void 
 		
 		
 }
