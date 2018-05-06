@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import qa_nlp.Database;
 import qa_nlp.LanguageProcessor;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -108,23 +109,26 @@ public class Application {
 		JLabel lblPassword = new JLabel("Password");
 		
 		dbPassword = new JPasswordField();
+		
+		JButton rstSemanticNetwork = new JButton("Reset");
+		rstSemanticNetwork.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Database db = new Database();
+				
+				// resets the semantic network to initial state
+				db.ResetSemanticNetwork();
+			}
+		});
+		
+		JLabel lblSemanticNetworkSettings = new JLabel("Semantic Network Settings");
+		lblSemanticNetworkSettings.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(162)
-					.addComponent(btnSubmig)
-					.addContainerGap(400, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(184)
-					.addComponent(lblAnswer)
-					.addContainerGap(420, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(30)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, 363, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())
+						.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, 363, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 359, GroupLayout.PREFERRED_SIZE)
@@ -134,9 +138,9 @@ public class Application {
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(63)
 									.addComponent(lblQuestionAnsweringSystem)))
-							.addPreferredGap(ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addGroup(groupLayout.createSequentialGroup()
 											.addGap(66)
@@ -145,13 +149,29 @@ public class Application {
 											.addGap(35)
 											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 												.addComponent(lblDatabaseCredentials)
-												.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-													.addComponent(dbPassword, Alignment.LEADING)
-													.addComponent(dbUsername, Alignment.LEADING)))))
-									.addGap(49))
+												.addComponent(dbUsername, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(dbPassword, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)))))
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-									.addGap(94))))))
+									.addGap(69)
+									.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)))
+							.addGap(24)))
+					.addGap(24))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(162)
+							.addComponent(btnSubmig))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(184)
+							.addComponent(lblAnswer)))
+					.addPreferredGap(ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addComponent(lblSemanticNetworkSettings)
+							.addGap(35))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addComponent(rstSemanticNetwork)
+							.addGap(86))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -166,9 +186,9 @@ public class Application {
 							.addComponent(dbUsername, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(lblPassword)
-							.addGap(3)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(dbPassword, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(37))
+							.addGap(34))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblQuestionAnsweringSystem)
 							.addGap(18)
@@ -177,9 +197,15 @@ public class Application {
 							.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)))
 					.addGap(6)
-					.addComponent(btnSubmig)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblAnswer)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnSubmig)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblAnswer))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblSemanticNetworkSettings)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(rstSemanticNetwork)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
 					.addGap(24))

@@ -1,0 +1,30 @@
+MLB <-> Arizona Diamondbacks
+MLB <-> Atlanta Braves
+MLB <-> Baltimore Orioles
+MLB <-> Boston Red Sox
+MLB <-> Chicago Cubs
+MLB <-> Chicago White Sox
+MLB <-> Cincinnati Reds
+MLB <-> Cleveland Indians
+MLB <-> Colorado Rockies
+MLB <-> Detroit Tigers
+MLB <-> Miami Marlins
+MLB <-> Houston Astros
+MLB <-> Kansas City Royals
+MLB <-> Los Angeles Angels of Anaheim
+MLB <-> Los Angeles Dodgers
+MLB <-> Milwaukee Brewers
+MLB <-> Minnesota Twins
+MLB <-> New York Mets
+MLB <-> New York Yankees
+MLB <-> Oakland Athletics
+MLB <-> Philadelphia Phillies
+MLB <-> Pittsburgh Pirates
+MLB <-> St. Louis Cardinals
+MLB <-> San Diego Padres
+MLB <-> San Francisco Giants
+MLB <-> Seattle Mariners
+MLB <-> Tampa Bay Rays
+MLB <-> Texas Rangers
+MLB <-> Toronto Blue Jays
+MLB <-> Washington Nationals
