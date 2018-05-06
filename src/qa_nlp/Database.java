@@ -9,13 +9,15 @@ import java.util.Base64;
 
 public class Database {
 
-	public String FindAnswer(String[][] afterPOS, int numberOfWords){
+	public String FindAnswer(String[][] afterPOS, int numberOfWords, String dbUsername, String dbPassword){
+		
+		SemanticNetwork sn = new SemanticNetwork();
 		
 		//ConvertToQuery(afterPOS, numberOfWords);
 		
-		CreateSemanticNetwork();
+		CreateSemanticNetwork(sn);
 		
-		String apiResponse = FetchFromAPI();
+		String apiResponse = FetchFromAPI(dbUsername, dbPassword);
 		
 		String answer = CreateAnswer(apiResponse);
 		
@@ -25,8 +27,7 @@ public class Database {
 		return answer;
 	}
 	
-	private void CreateSemanticNetwork(){
-		SemanticNetwork sn = new SemanticNetwork();
+	private void CreateSemanticNetwork(SemanticNetwork sn){
 		
 		// add all nodes for major league baseball (MLB) teams
 		sn.addNode("MLB");
@@ -92,7 +93,7 @@ public class Database {
 		sn.addEdge("MLB", "Toronto Blue Jays");
 		sn.addEdge("MLB", "Washington Nationals");
 		
-		System.out.print(sn.getNeighbors("Arizona Diamondbacks").copy().toString());
+//		System.out.print(sn.edges.contains(o));
 		
 //		System.out.print(sn.edges.toString());
 //		System.out.println();
@@ -141,15 +142,15 @@ public class Database {
 		
 	}
 	
-	private String FetchFromAPI(){
+	private String FetchFromAPI(String dbUsername, String dbPassword){
 		try {
 			
 			// url needs to be created based on what the user's question is
 			
             URL url = new URL ("https://api.mysportsfeeds.com/v1.2/pull/nhl/2018-playoff/scoreboard.json?fordate=20180418");
             
-            String username = "rnyborg";
-            String password = "ece466qa";
+            String username = dbUsername;
+            String password = dbPassword;
             
             String stringToEncode = username + ":" + password;
             

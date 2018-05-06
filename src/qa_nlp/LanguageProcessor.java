@@ -14,11 +14,11 @@ import opennlp.tools.tokenize.TokenizerModel;
 
 public class LanguageProcessor {
 	
-	public String ProcessQuestion (String input){
+	public String ProcessQuestion (String input, String dbUsername, String dbPassword){
 		String answer = "";
 //		System.out.print(input + " working...");
 //		System.out.println();
-		String apiAnswer = GetUserInput(input);
+		String apiAnswer = GetUserInput(input, dbUsername, dbPassword);
 		
 		if(apiAnswer == ""){
 			answer = "Sorry, I can't find an answer to that one. Can you try asking in a different way?";
@@ -30,7 +30,7 @@ public class LanguageProcessor {
 		return answer;
 	}
 	
-	private String GetUserInput(String input){
+	private String GetUserInput(String input, String dbUsername, String dbPassword){
 		Database db = new Database();
 		
 		String[][] afterPOS = null;
@@ -51,7 +51,7 @@ public class LanguageProcessor {
 			System.out.print("Word: " + afterPOS[i][0] + "\tPOS: " + afterPOS[i][1] + "\n");
 		}
 		
-		String answer = db.FindAnswer(afterPOS, numberOfWords);
+		String answer = db.FindAnswer(afterPOS, numberOfWords, dbUsername, dbPassword);
 		
 		return answer;
 	}

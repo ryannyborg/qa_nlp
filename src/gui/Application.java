@@ -15,10 +15,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import qa_nlp.LanguageProcessor;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 public class Application {
 
 	private JFrame frame;
+	private JTextField dbUsername;
+	private JPasswordField dbPassword;
 
 	/**
 	 * Launch the application.
@@ -48,7 +52,7 @@ public class Application {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 450);
+		frame.setBounds(100, 100, 650, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLabel lblQuestionAnsweringSystem = new JLabel("Question Answering System");
@@ -70,11 +74,21 @@ public class Application {
 				
 				System.out.print(textPane.getText());
 				
-				if(!textPane.getText().isEmpty()){
-					answer = lp.ProcessQuestion(textPane.getText());
+				if(!dbUsername.getText().isEmpty()){
+					if(!dbPassword.getText().isEmpty()){
+						if(!textPane.getText().isEmpty()){
+							answer = lp.ProcessQuestion(textPane.getText(), dbUsername.getText(), dbPassword.getText());
+						} else {
+							JOptionPane.showMessageDialog(null, "Please enter a question.");
+						}
+					} else{
+						JOptionPane.showMessageDialog(null, "Please enter database credentials for your password.");
+					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Please enter a question.");
+					JOptionPane.showMessageDialog(null, "Please enter database credentials for your username.");
 				}
+				
+				
 				
 				
 				textPane_1.setText(answer);
@@ -82,46 +96,93 @@ public class Application {
 		});
 		
 		JLabel lblAskMeA = new JLabel("Ask Me a Question!");
+		
+		JLabel lblUsername = new JLabel("Username");
+		
+		JLabel lblDatabaseCredentials = new JLabel("Database Credentials");
+		lblDatabaseCredentials.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		
+		dbUsername = new JTextField();
+		dbUsername.setColumns(10);
+		
+		JLabel lblPassword = new JLabel("Password");
+		
+		dbPassword = new JPasswordField();
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(162)
+					.addComponent(btnSubmig)
+					.addContainerGap(400, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(184)
+					.addComponent(lblAnswer)
+					.addContainerGap(420, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(30)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(98)
-							.addComponent(lblQuestionAnsweringSystem))
+							.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, 363, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(171)
-							.addComponent(btnSubmig))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(34)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, 363, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 359, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(194)
-							.addComponent(lblAnswer))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(149)
-							.addComponent(lblAskMeA)))
-					.addContainerGap(53, Short.MAX_VALUE))
+								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 359, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(117)
+									.addComponent(lblAskMeA))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(63)
+									.addComponent(lblQuestionAnsweringSystem)))
+							.addPreferredGap(ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addGap(66)
+											.addComponent(lblUsername))
+										.addGroup(groupLayout.createSequentialGroup()
+											.addGap(35)
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblDatabaseCredentials)
+												.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+													.addComponent(dbPassword, Alignment.LEADING)
+													.addComponent(dbUsername, Alignment.LEADING)))))
+									.addGap(49))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
+									.addGap(94))))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(29)
-					.addComponent(lblQuestionAnsweringSystem)
-					.addGap(18)
-					.addComponent(lblAskMeA)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblDatabaseCredentials)
+							.addGap(18)
+							.addComponent(lblUsername)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(dbUsername, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lblPassword)
+							.addGap(3)
+							.addComponent(dbPassword, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(37))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblQuestionAnsweringSystem)
+							.addGap(18)
+							.addComponent(lblAskMeA)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)))
+					.addGap(6)
 					.addComponent(btnSubmig)
-					.addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-					.addComponent(lblAnswer)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblAnswer)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
-					.addGap(20))
+					.addGap(24))
 		);
 		frame.getContentPane().setLayout(groupLayout);
 	}
