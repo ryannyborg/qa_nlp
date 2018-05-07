@@ -13,6 +13,9 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
+import java.util.Objects;
+
+import org.json.*;
 
 
 public class Database {
@@ -334,9 +337,51 @@ public class Database {
 		
 		// this function takes json response and turns it into a natural language response
 		
+		JSONObject obj = new JSONObject(apiResponse);
 		
+		String answer = "";
 		
-		return apiResponse;
+		String awayTeam = "";
+		String homeTeam = "";
+		
+		String teamLookingFor = "Arizona";
+		int gameFoundIndex = -1;
+		
+		JSONArray gameArray = obj.getJSONObject("scoreboard").getJSONArray("gameScore");
+		
+		// stays like this unless team was found
+		answer = "Sorry, the team you specified isn't playing today.";
+		
+		for(int i=0; i < gameArray.length(); i++){
+			awayTeam = gameArray.getJSONObject(i).getJSONObject("game").getJSONObject("awayTeam").getString("City");
+			homeTeam = gameArray.getJSONObject(i).getJSONObject("game").getJSONObject("homeTeam").getString("City");
+			if(Objects.equals(awayTeam, teamLookingFor) || Objects.equals(homeTeam, teamLookingFor)){
+				gameFoundIndex = i;
+				
+				answer = "";
+				
+				String awayCity = gameArray.getJSONObject(gameFoundIndex).getJSONObject("game").getJSONObject("awayTeam").getString("City");
+				String awayName = gameArray.getJSONObject(gameFoundIndex).getJSONObject("game").getJSONObject("awayTeam").getString("Name");
+				String homeCity = gameArray.getJSONObject(gameFoundIndex).getJSONObject("game").getJSONObject("homeTeam").getString("City");
+				String homeName = gameArray.getJSONObject(gameFoundIndex).getJSONObject("game").getJSONObject("homeTeam").getString("Name");
+				
+				answer += "The score of the ";
+				answer += awayCity + " " + awayName + " vs. " + homeCity + " " + homeName + " game was ";
+				
+				String awayScore = gameArray.getJSONObject(gameFoundIndex).getString("awayScore");
+				String homeScore = gameArray.getJSONObject(gameFoundIndex).getString("homeScore");
+				
+				if(Integer.parseInt(awayScore) < Integer.parseInt(homeScore)){
+					answer += homeScore + "-" + awayScore + " in favor of the " + homeName + ".";
+				} else {
+					answer += awayScore + "-" + homeScore + " in favor of the " + awayName + ".";
+				}
+				break;
+			}
+			
+		}
+
+		return answer;
 	}
 	
 	private String getCurrentDate(){ 
